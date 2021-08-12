@@ -16,6 +16,7 @@ BusTub is a relational database management system built at [Carnegie Mellon Univ
 - [ ] Query Execution
 - [ ] Logging & Recovery
 
+[**Course: youtube**](https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi)
 ## Build
 
 ### Linux / Mac
