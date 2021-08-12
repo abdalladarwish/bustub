@@ -37,7 +37,7 @@ TableIterator &TableIterator::operator++() {
   BufferPoolManager *buffer_pool_manager = table_heap_->buffer_pool_manager_;
   auto cur_page = static_cast<TablePage *>(buffer_pool_manager->FetchPage(tuple_->rid_.GetPageId()));
   cur_page->RLatch();
-  assert(cur_page != nullptr);  // all pages are pinned
+  assert(cur_page != nullptr);  // all pages are frame_pinned
 
   RID next_tuple_rid;
   if (!cur_page->GetNextTupleRid(tuple_->rid_,

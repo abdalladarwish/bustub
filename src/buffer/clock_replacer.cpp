@@ -14,8 +14,10 @@
 namespace bustub {
 
 ClockReplacer::ClockReplacer(size_t num_pages)
-: num_pages{num_pages},
-      frame_exist{std::vector<bool>(num_pages, false)}, refs{std::vector<ref_t>(num_pages, false)}, pins{std::vector<bool>(num_pages, false)} {}
+    : num_pages{num_pages},
+      frame_exist{std::vector<bool>(num_pages, false)},
+      refs{std::vector<bool>(num_pages, false)},
+      frame_pinned{std::vector<bool>(num_pages, false)} {}
 
 ClockReplacer::~ClockReplacer() = default;
 
@@ -30,7 +32,7 @@ bool ClockReplacer::Victim(frame_id_t *frame_id) {
 
 bool ClockReplacer::VictimInternal(frame_id_t *frame_id, size_t upperBound) {
   while (current_hand_position < upperBound) {
-    if(frame_exist[current_hand_position]){
+    if (frame_exist[current_hand_position]) {
       if (refs[current_hand_position]) {
         refs[current_hand_position] = false;
         current_hand_position++;
@@ -41,7 +43,7 @@ bool ClockReplacer::VictimInternal(frame_id_t *frame_id, size_t upperBound) {
         current_hand_position++;
         return true;
       }
-    } else{
+    } else {
       current_hand_position++;
     }
   }
@@ -51,8 +53,8 @@ bool ClockReplacer::VictimInternal(frame_id_t *frame_id, size_t upperBound) {
 
 void ClockReplacer::Pin(frame_id_t frame_id) {
   if (frame_id > -1 && frame_id < static_cast<frame_id_t>(num_pages)) {
-    if(frame_exist[frame_id]){
-      pins[frame_id] = true;
+    if (frame_exist[frame_id]) {
+      frame_pinned[frame_id] = true;
       frame_exist[frame_id] = false;
       frames_count--;
     }
@@ -61,20 +63,18 @@ void ClockReplacer::Pin(frame_id_t frame_id) {
 
 void ClockReplacer::Unpin(frame_id_t frame_id) {
   if (frame_id > -1 && frame_id < static_cast<frame_id_t>(num_pages)) {
-    if(!frame_exist[frame_id]) {
+    if (!frame_exist[frame_id]) {
       frame_exist[frame_id] = true;
       frames_count++;
     }
-    if(pins[frame_id]){
-      pins[frame_id] = false;
+    if (frame_pinned[frame_id]) {
+      frame_pinned[frame_id] = false;
       refs[frame_id] = true;
-    } else{
+    }else{
       refs[frame_id] = false;
     }
   }
 }
 
-size_t ClockReplacer::Size() {
-  return frames_count;
-}
+size_t ClockReplacer::Size() { return frames_count; }
 }  // namespace bustub

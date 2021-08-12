@@ -50,8 +50,8 @@ class ClockReplacer : public Replacer {
   // TODO(student): implement me!
   size_t num_pages;
   std::vector<bool> frame_exist;
-  std::vector<ref_t> refs;
-  std::vector<bool> pins;
+  std::vector<bool> refs;
+  std::vector<bool> frame_pinned;
   size_t current_hand_position = 0;
   size_t frames_count = 0;
   bool VictimInternal(frame_id_t *frame_id, size_t upperBound);
